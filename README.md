@@ -14,15 +14,21 @@ or
 
 2. copy the source, that you have a structure like this:
 ```
-app
-+code  
- +Payone
-  +SimpleProtect
-   +etc
-   +Model
-   +Observer
-    composer.json
-    registration.php
+app/
+└── code
+    └── Payone
+        └── SimpleProtect
+            ├── composer.json
+            ├── etc
+            │   ├── di.xml
+            │   ├── events.xml
+            │   └── module.xml
+            ├── Model
+            │   └── SimpleProtect
+            │       └── SimpleProtect.php
+            ├── Observer
+            │   └── OrderPaymentPlaceEnd.php
+            └── registration.php
 ```
 
 3. install and activate the plugin
