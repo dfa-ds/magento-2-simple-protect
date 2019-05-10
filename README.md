@@ -11,7 +11,7 @@ template for using the magento 2 - simple protect framework
 
 method `handlePrePaymentSelection`
 
-Extending this method gives the following possibilities:
+Implementing this method gives the following possibilities:
 1. Filtering out payment methods based on your own rule set
 2. Throwing a LocalizedException to send the user back to shipping method selection
 ```
@@ -34,14 +34,17 @@ public function handlePrePaymentSelection(Quote $oQuote, $aPaymentMethods)
 
 method `handlePostPaymentSelection`
 
-Extending this method gives the following possibilities:
+Implementing this method gives the following possibilities:
 1. Throwing a LocalizedException will stop the order creation and throw the user back to payment selection with the given thrown message
-2. Finishing the method - so throwing no Exception will finish the order creation
+2. Throwing a FilterMethodListException with an array of safe payment methods will stop the order creation and
+   throw the user back to payment selection with the given thrown message and remove all other payment methods except for the given ones
+3. Finishing the method - so throwing no Exception will finish the order creation
 
 ```
 @param  Quote $oQuote
 @return void
 @throws LocalizedException
+@throws FilterMethodListException
 ```
 
 **Example**
@@ -52,7 +55,7 @@ public function handlePostPaymentSelection(Quote $oQuote)
         $sMethodCode = $oQuote->getPayment()->getMethodInstance()->getCode();
         if (!in_array($sMethodCode, $this->safePaymentMethods)) {
             $this->checkoutSession->setPayoneSimpleProtectOnlySafePaymentsAllowed(true);
-            throw new LocalizedException(__('Please select another payment method.'));
+            throw new FilterMethodListException(__('Please select another payment method.'), $this->safePaymentMethods);
         }
     }
 }
@@ -62,7 +65,7 @@ public function handlePostPaymentSelection(Quote $oQuote)
 
 method `handleEnterOrChangeBillingAddress`
 
-Extending this method gives the following possibilities:
+Implementing this method gives the following possibilities:
 1. Returning true will just continue the process without changing anything
 2. Returning a (changed) address object instance of AddressInterface will show an address correction prompt to the customer
 3. Throwing a LocalizedException will show the given exception message to the customer
@@ -89,7 +92,7 @@ public function handleEnterOrChangeBillingAddress(AddressInterface $oAddressData
 
 method `handleEnterOrChangeShippingAddress`
 
-Extending this method gives the following possibilities:
+Implementing this method gives the following possibilities:
 1. Returning true will just continue the process without changing anything
 2. Returning a (changed) address object instance of AddressInterface will show an address correction prompt to the customer
 3. Throwing a LocalizedException will show the given exception message to the customer
