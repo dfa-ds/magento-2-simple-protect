@@ -2,8 +2,37 @@
 template for using the magento 2 - simple protect framework
 
 **Notes / Warnings**
-> this imlementation is currently in alpha stage.So handle it with care!
-> To use this implementation you have to get the magent-2-simple-protect framework.
+> this implementation is currently in alpha stage.So handle it with care!
+> To use this implementation you have to get the magento-2-simple-protect framework.
+
+## Installation
+### manuell
+1. create directory:
+> 'app/code/Payone/SimpleProtect'
+or
+> 'vendor/payone-gmbh/magento-2-simpleProtect'
+
+2. copy the source, that you have a structure like this:
+```
+app
++code  
+ +Payone
+  +SimpleProtect
+   +etc
+   +Model
+   +Observer
+    composer.json
+    registration.php
+```
+
+3. install and activate the plugin
+```
+php bin/magento module:enable Payone_SimpleProtectDemo
+php bin/magento setup:upgrade
+php bin/magento cache:clean
+```
+
+4. update / change the code for your needs
 
 ## entry points
 
