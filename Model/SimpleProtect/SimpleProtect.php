@@ -272,7 +272,7 @@ class SimpleProtect implements SimpleProtectInterface
             return true;
         }
 
-        if ($blIsPrePaymentSelection === false) {
+        if ($blIsPrePaymentSelection === false && !in_array($oQuote->getPayment()->getMethodInstance()->getCode(), $this->safePaymentMethods)) {
             $oResponse = $this->executeConsumerscore($oQuote);
             if ($oResponse instanceof ConsumerscoreResponse && ($oResponse->getStatus() != 'VALID' || $oResponse->getScore() != 'G')) {
                 return true;
