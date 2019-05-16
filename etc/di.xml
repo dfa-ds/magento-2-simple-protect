@@ -25,5 +25,5 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Payone\Core\Model\SimpleProtect\SimpleProtectInterface" type="Payone\SimpleProtect\Model\SimpleProtect\SimpleProtect" /><!-- Use your own Simple Protect implementation instead of empty default implementation -->
+    <preference for="Payone\Core\Model\SimpleProtect\SimpleProtect" type="Payone\SimpleProtect\Model\SimpleProtect\SimpleProtect" /><!-- Use your own Simple Protect implementation instead of empty default implementation -->
 </config>
