@@ -29,7 +29,7 @@ namespace Payone\SimpleProtect\Model\SimpleProtect;
 use Magento\Payment\Model\MethodInterface;
 use Magento\Quote\Model\Quote;
 use Payone\Core\Model\Source\Mode;
-use Payone\Core\Model\SimpleProtect\SimpleProtectInterface;
+use Payone\Core\Model\SimpleProtect\SimpleProtect as OrigSimpleProtect;
 use Payone\Core\Model\PayoneConfig;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Quote\Model\Quote\Address;
@@ -41,7 +41,7 @@ use Payone\Core\Model\Api\Response\AddresscheckResponse;
 use Payone\Core\Model\Api\Response\ConsumerscoreResponse;
 use Magento\Quote\Api\Data\AddressInterface;
 
-class SimpleProtect implements SimpleProtectInterface
+class SimpleProtect extends OrigSimpleProtect
 {
     /**
      * Whitelist of safe payment methods
@@ -307,7 +307,7 @@ class SimpleProtect implements SimpleProtectInterface
     /************************* MAIN SIMPLEPROTECT HOOKS *************************/
 
     /**
-     * This method can be implemented for individual custom behaviour
+     * This method can be extended for individual custom behaviour
      *
      * Extending this method gives the following possibilities:
      * 1. Filtering out payment methods based on your own rule set
@@ -326,7 +326,7 @@ class SimpleProtect implements SimpleProtectInterface
     }
 
     /**
-     * This method can be implemented for individual custom behaviour
+     * This method can be extended for individual custom behaviour
      *
      * Extending this method gives the following possibilities:
      * 1. Throwing a LocalizedException will stop the order creation and throw the user back to payment selection with the given thrown message
@@ -348,79 +348,5 @@ class SimpleProtect implements SimpleProtectInterface
                 throw new FilterMethodListException(__('Please select another payment method.'), $this->safePaymentMethods);
             }
         }
-    }
-
-    /**
-     * This method can be implemented for individual custom behaviour
-     *
-     * Extending this method gives the following possibilities:
-     * 1. Returning true will just continue the process without changing anything
-     * 2. Returning a (changed) address object instance of AddressInterface will show an address correction prompt to the customer
-     * 3. Throwing a LocalizedException will show the given exception message to the customer
-     *
-     * @param AddressInterface $oAddressData
-     * @param bool             $blIsVirtual
-     * @param double           $dTotal
-     * @return AddressInterface|bool
-     * @throws LocalizedException
-     */
-    public function handleEnterOrChangeBillingAddress(AddressInterface $oAddressData, $blIsVirtual, $dTotal)
-    {
-        return true;
-    }
-
-    /**
-     * This method can be implemented for individual custom behaviour
-     *
-     * Extending this method gives the following possibilities:
-     * 1. Returning true will just continue the process without changing anything
-     * 2. Returning a (changed) address object instance of AddressInterface will show an address correction prompt to the customer
-     * 3. Throwing a LocalizedException will show the given exception message to the customer
-     *
-     * @param AddressInterface $oAddressData
-     * @param bool             $blIsVirtual
-     * @param double           $dTotal
-     * @return AddressInterface|bool
-     * @throws LocalizedException
-     */
-    public function handleEnterOrChangeShippingAddress(AddressInterface $oAddressData, $blIsVirtual, $dTotal)
-    {
-        return true;
-    }
-
-    /**
-     * This method can be implemented for individual custom behaviour
-     *
-     * Extend this method to return true to enable addresscheck frontend ajax calls for billing address
-     *
-     * @return bool
-     */
-    public function isAddresscheckBillingEnabled()
-    {
-        return false;
-    }
-
-    /**
-     * This method can be implemented for individual custom behaviour
-     *
-     * Extend this method to return true to enable addresscheck frontend ajax calls for shipping address
-     *
-     * @return bool
-     */
-    public function isAddresscheckShippingEnabled()
-    {
-        return false;
-    }
-
-    /**
-     * This method can be implemented for individual custom behaviour
-     *
-     * Extend this method to return false to disable address correction confirmation
-     *
-     * @return bool
-     */
-    public function isAddresscheckCorrectionConfirmationNeeded()
-    {
-        return true;
     }
 }
