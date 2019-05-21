@@ -115,12 +115,14 @@ Implementing this method gives the following possibilities:
 **Example**
 ```    
 public function handleEnterOrChangeBillingAddress(AddressInterface $oAddressData, $blIsVirtual, $dTotal)
-{
-    if ($oAddressData->getFirstname() == "Alexa") {
-        return false;
+    {
+        $response = $this->protectFunnel->executeAddresscheck($oAddressData, $this->getOperationMode(), AddressCheckType::BASIC);
+        if ($oAddressData->getCity() == "FalscheStadt") {
+            $oAddressData->setCity($response->getCity());
+            return $oAddressData;
+        }
+        return true;
     }
-    return true;
-}
 ```
 
 ### change / enter shipping address
@@ -143,10 +145,12 @@ Implementing this method gives the following possibilities:
 **Example**
 ```
 public function handleEnterOrChangeShippingAddress(AddressInterface $oAddressData, $blIsVirtual, $dTotal)
-{
-    if ($oAddressData->getCompany() == 'PAYONE') {
-        return false;
+    {
+        $response = $this->protectFunnel->executeAddresscheck($oAddressData, $this->getOperationMode(), AddressCheckType::BASIC);
+        if ($oAddressData->getCity() == "FalscheStadt") {
+            $oAddressData->setCity($response->getCity());
+            return $oAddressData;
+        }
+        return true;
     }
-    return true;
-}
 ```
