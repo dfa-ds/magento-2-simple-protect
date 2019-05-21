@@ -33,7 +33,7 @@ app/
 
 3. install and activate the plugin
 ```
-php bin/magento module:enable Payone_SimpleProtectDemo
+php bin/magento module:enable Payone_SimpleProtect
 php bin/magento setup:upgrade
 php bin/magento cache:clean
 ```
