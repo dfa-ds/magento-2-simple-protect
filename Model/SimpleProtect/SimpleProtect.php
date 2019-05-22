@@ -28,7 +28,6 @@ namespace Payone\SimpleProtect\Model\SimpleProtect;
 
 use Magento\Payment\Model\MethodInterface;
 use Magento\Quote\Model\Quote;
-use Payone\Core\Model\Source\Mode;
 use Payone\Core\Model\SimpleProtect\SimpleProtect as OrigSimpleProtect;
 use Payone\Core\Model\PayoneConfig;
 use Magento\Customer\Api\Data\CustomerInterface;
@@ -40,6 +39,7 @@ use Payone\Core\Model\Exception\FilterMethodListException;
 use Payone\Core\Model\Api\Response\AddresscheckResponse;
 use Payone\Core\Model\Api\Response\ConsumerscoreResponse;
 use Magento\Quote\Api\Data\AddressInterface;
+use Magento\Store\Model\ScopeInterface;
 
 class SimpleProtect extends OrigSimpleProtect
 {
@@ -76,31 +76,40 @@ class SimpleProtect extends OrigSimpleProtect
     protected $checkoutSession;
 
     /**
+     * Scope config object
+     *
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+    /**
      * Constructor
      *
-     * @param \Payone\Core\Model\SimpleProtect\ProtectFunnel $protectFunnel
-     * @param \Magento\Framework\App\ResourceConnection      $resource
-     * @param \Magento\Checkout\Model\Session\Proxy           $checkoutSession
+     * @param \Payone\Core\Model\SimpleProtect\ProtectFunnel     $protectFunnel
+     * @param \Magento\Framework\App\ResourceConnection          $resource
+     * @param \Magento\Checkout\Model\Session\Proxy              $checkoutSession
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         \Payone\Core\Model\SimpleProtect\ProtectFunnel $protectFunnel,
         \Magento\Framework\App\ResourceConnection $resource,
-        \Magento\Checkout\Model\Session\Proxy $checkoutSession
+        \Magento\Checkout\Model\Session\Proxy $checkoutSession,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->protectFunnel = $protectFunnel;
+        parent::__construct($protectFunnel);
         $this->databaseResource = $resource;
         $this->checkoutSession = $checkoutSession;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
-     * Returns operation mode used for the addresscheck and consumerscore
-     * Can be MODE_TEST or MODE_LIVE
+     * Returns configured operation mode used for the addresscheck and consumerscore
      *
      * @return string
      */
     public function getOperationMode()
     {
-        return Mode::MODE_TEST;
+        return $this->scopeConfig->getValue('payone_general/global/protect_mode', ScopeInterface::SCOPE_STORES);
     }
 
     /**
