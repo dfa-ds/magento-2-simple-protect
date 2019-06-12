@@ -43,6 +43,8 @@ use Magento\Store\Model\ScopeInterface;
 
 class SimpleProtect extends OrigSimpleProtect
 {
+    const MODULE_VERSION = '1.0.0';
+
     /**
      * Whitelist of safe payment methods
      *
@@ -222,7 +224,7 @@ class SimpleProtect extends OrigSimpleProtect
         #$sAddresscheckType = AddressCheckType::BONIVERSUM_BASIC;
         #$sAddresscheckType = AddressCheckType::BONIVERSUM_PERSON;
 
-        return $this->protectFunnel->executeAddresscheck($oAddress, $this->getOperationMode(), $sAddresscheckType);
+        return $this->protectFunnel->executeAddresscheck($oAddress, $this->getOperationMode(), $sAddresscheckType, $this->getModuleVersion());
     }
 
     /**
@@ -247,7 +249,7 @@ class SimpleProtect extends OrigSimpleProtect
         #$sAddresscheckType = AddressCheckType::BONIVERSUM_BASIC;
         #$sAddresscheckType = AddressCheckType::BONIVERSUM_PERSON;
 
-        return $this->protectFunnel->executeConsumerscore($oAddress, $this->getOperationMode(), $sConsumerscoreType, $sAddresscheckType);
+        return $this->protectFunnel->executeConsumerscore($oAddress, $this->getOperationMode(), $sConsumerscoreType, $sAddresscheckType, $this->getModuleVersion());
     }
 
     /**
@@ -357,5 +359,16 @@ class SimpleProtect extends OrigSimpleProtect
                 throw new FilterMethodListException(__('Please select another payment method.'), $this->safePaymentMethods);
             }
         }
+    }
+
+    /**
+     * This method can be extended to transfer the version of your Simple-Protect implementation to Payone
+     * It is recommended to transfer the name of your module and the version, otherwise Payone doesn't know that it is a Simple-Protect call
+     *
+     * @return string|null
+     */
+    public function getModuleVersion()
+    {
+        return 'Payone_SimpleProtect-'.self::MODULE_VERSION;
     }
 }
