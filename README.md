@@ -2,8 +2,21 @@
 template for using the magento 2 - simple protect framework
 
 **Notes / Warnings**
-> this implementation is currently in alpha stage.So handle it with care!
-> To use this implementation you have to get the magento-2-simple-protect framework.
+> this implementation is currently in beta stage.Use at own risk!
+> To use this implementation you have to get the [magento-2-simple-protect framework](https://github.com/PAYONE-GmbH/magento-2/tree/simple-protect).
+
+## Links
+### Documentation
+Find the detailed documentation at:
+[https://docs.payone.com/magento-2](https://docs.payone.com/display/public/INT/Magento+2+Plugin#Magento2Plugin-SimpleProtect)
+
+### Examples
+Find more examples at:
+[https://docs.payone.com/examples/magento-2/simple-protect](https://docs.payone.com/display/public/INT/Magento+2+-+Simple+Protect)
+
+### current module branch
+[github://PAYONE-GmbH/magento-2/simple-protect](https://github.com/PAYONE-GmbH/magento-2/tree/simple-protect)
+
 
 ## Installation
 ### manuell
